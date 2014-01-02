@@ -1,0 +1,42 @@
+{
+  "name": "gulp-react",
+  "version": "0.0.0",
+  "description": "Precompile Facebook React JSX templates into JavaScript",
+  "license": "MIT",
+  "repository": "sindresorhus/gulp-react",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin",
+    "react",
+    "jsx",
+    "transform",
+    "transformer",
+    "template",
+    "templates",
+    "view",
+    "views",
+    "precompile",
+    "compile"
+  ],
+  "dependencies": {
+    "event-stream": "~3.0.20",
+    "gulp-util": "~2.2.0",
+    "react-tools": "~0.8.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  }
+}
