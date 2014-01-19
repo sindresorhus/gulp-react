@@ -32,8 +32,8 @@
     "compile"
   ],
   "dependencies": {
-    "event-stream": "~3.0.20",
     "gulp-util": "~2.2.0",
+    "through2": "~0.4.0",
     "react-tools": "~0.8.0"
   },
   "devDependencies": {

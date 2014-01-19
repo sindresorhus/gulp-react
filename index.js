@@ -1,24 +1,28 @@
 'use strict';
-var es = require('event-stream');
 var gutil = require('gulp-util');
+var through = require('through2');
 var react = require('react-tools');
 
 module.exports = function (name) {
-	return es.map(function (file, cb) {
+	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
-			return cb(null, file);
+			this.push(file);
+			return cb();
 		}
 
-		var contents;
+		if (file.isStream()) {
+			this.emit('error', new gutil.PluginError('gulp-react', 'Streaming not supported'));
+			return cb();
+		}
 
 		try {
-			contents = react.transform(file.contents.toString());
+			file.contents = new Buffer(react.transform(file.contents.toString()));
+			file.path = gutil.replaceExtension(file.path, '.js');
 		} catch (err) {
-			return cb(new Error('gulp-react: ' + err));
+			this.emit('error', new gutil.PluginError('gulp-react', err));
 		}
 
-		file.contents = new Buffer(contents);
-		file.path = gutil.replaceExtension(file.path, '.js');
-		cb(null, file);
+		this.push(file);
+		cb();
 	});
 };
