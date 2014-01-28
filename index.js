@@ -19,6 +19,7 @@ module.exports = function (name) {
 			file.contents = new Buffer(react.transform(file.contents.toString()));
 			file.path = gutil.replaceExtension(file.path, '.js');
 		} catch (err) {
+			err.fileName = file.path;
 			this.emit('error', new gutil.PluginError('gulp-react', err));
 		}
 
