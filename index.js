@@ -6,7 +6,7 @@ var react = require('react-tools');
 module.exports = function (opts) {
 	if (!opts) opts = {};
 
-	var pragma = '/** @jsx React.DOM */';
+	var pragma = "/** @jsx React.DOM */\n";
 	var defaults = {
 		addPragma: false
 	};
@@ -28,10 +28,7 @@ module.exports = function (opts) {
 
 		try {
 			var content = file.contents.toString();
-
-			if (opts.addPragma && content.indexOf('@jsx React.DOM'))
-				content = pragma + content;
-
+			if (opts.addPragma) content = pragma + content;
 			file.contents = new Buffer(react.transform(content));
 			file.path = gutil.replaceExtension(file.path, '.js');
 		} catch (err) {
