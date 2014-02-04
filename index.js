@@ -3,7 +3,19 @@ var gutil = require('gulp-util');
 var through = require('through2');
 var react = require('react-tools');
 
-module.exports = function (name) {
+module.exports = function (opts) {
+	if (!opts) opts = {};
+
+	var pragmaRegex = /^\s*\/\*\* @jsx React\.DOM \*\//i;
+	var pragma = '/** @jsx React.DOM */';
+	var defaults = {
+		addPragma: false
+	};
+
+	Object.keys(defaults).forEach(function(method) {
+		if (!opts[method]) opts[method] = defaults[method];
+	});
+
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
 			this.push(file);
@@ -16,7 +28,13 @@ module.exports = function (name) {
 		}
 
 		try {
-			file.contents = new Buffer(react.transform(file.contents.toString()));
+			var content = file.contents.toString();
+
+			if (opts.addPragma) {
+				if (!pragmaRegex.test(content)) content = pragma + content;
+			}
+
+			file.contents = new Buffer(react.transform(content));
 			file.path = gutil.replaceExtension(file.path, '.js');
 		} catch (err) {
 			err.fileName = file.path;
