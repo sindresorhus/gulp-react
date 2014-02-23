@@ -7,8 +7,6 @@
 
 ## Install
 
-Install with [npm](https://npmjs.org/package/gulp-react)
-
 ```
 npm install --save-dev gulp-react
 ```
@@ -26,6 +24,8 @@ gulp.task('default', function () {
 		.pipe(gulp.dest('dist'));
 });
 ```
+
+The JSX directive `/** @jsx React.DOM */` is automagically prepended to `.jsx` files if missing.
 
 
 ## License
