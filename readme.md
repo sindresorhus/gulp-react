@@ -27,6 +27,18 @@ gulp.task('default', function () {
 
 The JSX directive `/** @jsx React.DOM */` is automagically prepended to `.jsx` files if missing.
 
+## API
+
+### react(options)
+
+#### options
+
+##### harmony
+
+Type: `Boolean`
+Default: `false`
+
+Enable harmony options for jsx (full list of supported harmony features [here](https://github.com/facebook/jstransform/tree/master/visitors))
 
 ## License
 

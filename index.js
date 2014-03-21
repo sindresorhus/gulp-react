@@ -4,7 +4,7 @@ var gutil = require('gulp-util');
 var through = require('through2');
 var react = require('react-tools');
 
-module.exports = function (name) {
+module.exports = function (options) {
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
 			this.push(file);
@@ -23,7 +23,7 @@ module.exports = function (name) {
 		}
 
 		try {
-			file.contents = new Buffer(react.transform(str));
+			file.contents = new Buffer(react.transform(str, options));
 			file.path = gutil.replaceExtension(file.path, '.js');
 		} catch (err) {
 			err.fileName = file.path;
