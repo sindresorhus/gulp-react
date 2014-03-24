@@ -1,4 +1,4 @@
-# [gulp](http://gulpjs.com)-react [![Build Status](https://secure.travis-ci.org/sindresorhus/gulp-react.png?branch=master)](http://travis-ci.org/sindresorhus/gulp-react)
+# [gulp](http://gulpjs.com)-react [![Build Status](https://travis-ci.org/sindresorhus/gulp-react.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-react)
 
 > Precompile [Facebook React](http://facebook.github.io/react/) JSX templates into JavaScript
 
@@ -7,12 +7,12 @@
 
 ## Install
 
-```
-npm install --save-dev gulp-react
+```bash
+$ npm install --save-dev gulp-react
 ```
 
 
-## Example
+## Usage
 
 ```js
 var gulp = require('gulp');
@@ -27,19 +27,19 @@ gulp.task('default', function () {
 
 The JSX directive `/** @jsx React.DOM */` is automagically prepended to `.jsx` files if missing.
 
+
 ## API
 
 ### react(options)
 
-#### options
+#### options.harmony
 
-##### harmony
-
-Type: `Boolean`
+Type: `boolean`  
 Default: `false`
 
-Enable harmony options for jsx (full list of supported harmony features [here](https://github.com/facebook/jstransform/tree/master/visitors))
+Enable [harmony features for JSX](https://github.com/facebook/jstransform/tree/master/visitors).
+
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+[MIT](http://opensource.org/licenses/MIT) © [Sindre Sorhus](http://sindresorhus.com)
