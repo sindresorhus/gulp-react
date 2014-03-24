@@ -18,6 +18,21 @@ it('should precompile React templates', function (cb) {
 	}));
 });
 
+it('should precompile React templates with --harmony flag', function (cb) {
+	var stream = react({ harmony: true });
+
+	stream.on('data', function (file) {
+		assert.equal(file.relative, 'fixture.harmony.js');
+		assert(/function\(\)/.test(file.contents.toString()));
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		path: 'fixture.harmony.jsx',
+		contents: new Buffer('/** @jsx React.DOM */var HelloMessage = React.createClass({render: () => {return <div>Hello {this.props.name}</div>;}});')
+	}));
+});
+
 it('should add JSX directive if not found and file has .jsx extension', function (cb) {
 	var stream = react();
 
