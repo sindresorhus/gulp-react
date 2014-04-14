@@ -25,13 +25,13 @@ module.exports = function (options) {
 		try {
 			file.contents = new Buffer(react.transform(str, options));
 			file.path = gutil.replaceExtension(file.path, '.js');
+			this.push(file);
 		} catch (err) {
 			this.emit('error', new gutil.PluginError('gulp-react', err, {
 				fileName: file.path
 			}));
 		}
 
-		this.push(file);
 		cb();
 	});
 };
