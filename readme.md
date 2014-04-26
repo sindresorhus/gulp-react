@@ -17,10 +17,14 @@ $ npm install --save-dev gulp-react
 ```js
 var gulp = require('gulp');
 var react = require('gulp-react');
+var gutil = require('gulp-util');
 
 gulp.task('default', function () {
 	return gulp.src('template.jsx')
 		.pipe(react())
+		.on('error', function(err) {
+			gutil.log(gutil.colors.red(err.fileName + ': ' + err.message));
+		})
 		.pipe(gulp.dest('dist'));
 });
 ```
