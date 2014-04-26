@@ -17,18 +17,20 @@ module.exports = function (options) {
 		}
 
 		var str = file.contents.toString();
+		var filePath = file.path;
 
-		if (path.extname(file.path) === '.jsx' && str.indexOf('/** @jsx') === -1) {
+		if (path.extname(filePath) === '.jsx' && str.indexOf('/** @jsx') === -1) {
 			str = '/** @jsx React.DOM */\n' + str;
 		}
 
 		try {
 			file.contents = new Buffer(react.transform(str, options));
-			file.path = gutil.replaceExtension(file.path, '.js');
+			file.path = gutil.replaceExtension(filePath, '.js');
 			this.push(file);
 		} catch (err) {
+			err.fileName = err.fileName || filePath;
 			this.emit('error', new gutil.PluginError('gulp-react', err, {
-				fileName: file.path
+				fileName: filePath
 			}));
 		}
 
