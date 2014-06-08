@@ -22,18 +22,8 @@ module.exports = function (options) {
 		var JS_COMMENTS_REGEX = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:\/\/(?:.*)$)/gm;
 		var commentMatches = str.match(JS_COMMENTS_REGEX);
 
-		if (path.extname(filePath) === '.jsx') {
-			// for all files with ".jsx" extension
-			if (!commentMatches || commentMatches[0].indexOf('@jsx') === -1) {
-				// When no JSX directive present as the top comment
-				str = '/** @jsx React.DOM */\n' + str;
-			} else if (commentMatches[0].indexOf('@jsx') === -1 ||
-				commentMatches[0].indexOf('/**') === -1) {
-				// When JSX directive is present but not in right format
-				// as per : http://facebook.github.io/react/docs/getting-started.html
-				str.replace([0], '');
-				str = '/** @jsx React.DOM */\n' + str;
-			}
+		if (path.extname(filePath) === '.jsx' && !(commentMatches && (commentMatches[0].indexOf('/**') !== -1 && commentMatches[0].indexOf('@jsx') !== -1))) {
+			str = '/** @jsx React.DOM */\n' + str;
 		}
 
 		try {

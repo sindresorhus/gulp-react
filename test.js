@@ -2,6 +2,7 @@
 var assert = require('assert');
 var gutil = require('gulp-util');
 var react = require('./index');
+var JS_COMMENTS_REGEX = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:\/\/(?:.*)$)/gm;
 
 it('should precompile React templates', function (cb) {
 	var stream = react();
@@ -48,41 +49,42 @@ it('should add JSX directive if not found and file has .jsx extension', function
 	}));
 });
 
-it('should prepend correct JSX directive if file has .jsx extension and top-of-page comment is not JSX directive', function (cb) {
-	// Some code-editors may insert automatic comments which are required to be preserved
+it('should ensure JSX directive is the first comment on the file if file has .jsx extension', function (cb) {
 	var stream = react();
 
 	stream.on('data', function (file) {
+		var fileContentsString = file.contents.toString();
+		var commentMatches = fileContentsString.match(JS_COMMENTS_REGEX);
+
 		assert.equal(file.relative, 'fixture.js');
-		assert(/@jsx/.test(file.contents.toString()));
-		assert(/ this comment must exist/.test(file.contents.toString()));
+		assert(/\/\*\*/.test(commentMatches[0]));
+		assert(/@jsx/.test(commentMatches[0]));
+		assert(/\/\*\* JSX directive must precede this comment \*\//.test(commentMatches[1]));
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		path: 'fixture.jsx',
-		contents: new Buffer('/**\n Hey myy organization says \n this comment must exist on all files \n\n */var HelloMessage = React.createClass({render: function(){return <div>Hello {this.props.name}</div>;}});')
+		contents: new Buffer('/** JSX directive must precede this comment */ \n\n var HelloMessage = React.createClass({render: function(){return <div>Hello {this.props.name}</div>;}});')
 	}));
 });
 
-it('should contain only one correct JSX directive at top of the file if file has .jsx extension', function (cb) {
+it('should not duplicate JSX directive if file has .jsx extension', function (cb) {
 	var stream = react();
 
 	stream.on('data', function (file) {
+		var fileContentsString = file.contents.toString();
+		var commentMatches = fileContentsString.match(JS_COMMENTS_REGEX);
+
 		assert.equal(file.relative, 'fixture.js');
-		var fileContentsString = file.contents.toString(),
-			JS_COMMENTS_REGEX = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:\/\/(?:.*)$)/gm,
-			commentMatches = fileContentsString.match(JS_COMMENTS_REGEX),
-			directiveMatchCount = 0;
-		commentMatches.forEach(function(match){
-			/@jsx/.test(match) ? directiveMatchCount++ : directiveMatchCount = directiveMatchCount;
-		});
-		assert(directiveMatchCount === 1);
+		assert(/\/\*\*/.test(commentMatches[0]));
+		assert(/@jsx/.test(commentMatches[0]));
+		assert(/\/\* This is a comment \*\//.test(commentMatches[1]));
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		path: 'fixture.jsx',
-		contents: new Buffer('/**\n @jsx\n React.DOM \n\n */var HelloMessage = React.createClass({render: function(){return <div>Hello {this.props.name}</div>;}});')
+		contents: new Buffer('/**\n* @jsx React.DOM \n\n */ \n\n /* This is a comment */\n\n var HelloMessage = React.createClass({render: function(){return <div>Hello {this.props.name}</div>;}});')
 	}));
 });
