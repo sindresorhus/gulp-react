@@ -18,8 +18,11 @@ module.exports = function (options) {
 
 		var str = file.contents.toString();
 		var filePath = file.path;
+		// Regex Credits: http://stackoverflow.com/a/15123777
+		var JS_COMMENTS_REGEX = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:\/\/(?:.*)$)/gm;
+		var commentMatches = str.match(JS_COMMENTS_REGEX);
 
-		if (path.extname(filePath) === '.jsx' && str.indexOf('/** @jsx') === -1) {
+		if (path.extname(filePath) === '.jsx' && !(commentMatches && (commentMatches[0].indexOf('/**') !== -1 && commentMatches[0].indexOf('@jsx') !== -1))) {
 			str = '/** @jsx React.DOM */\n' + str;
 		}
 
