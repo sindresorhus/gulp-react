@@ -8,12 +8,14 @@ module.exports = function (options) {
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
 			this.push(file);
-			return cb();
+			cb();
+			return;
 		}
 
 		if (file.isStream()) {
 			this.emit('error', new gutil.PluginError('gulp-react', 'Streaming not supported'));
-			return cb();
+			cb();
+			return;
 		}
 
 		var str = file.contents.toString();
@@ -32,9 +34,7 @@ module.exports = function (options) {
 			file.path = gutil.replaceExtension(filePath, '.js');
 			this.push(file);
 		} catch (err) {
-			this.emit('error', new gutil.PluginError('gulp-react', err, {
-				fileName: filePath
-			}));
+			this.emit('error', new gutil.PluginError('gulp-react', err, {fileName: filePath}));
 		}
 
 		cb();
