@@ -7,14 +7,12 @@ var react = require('react-tools');
 module.exports = function (options) {
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
-			this.push(file);
-			cb();
+			cb(null, file);
 			return;
 		}
 
 		if (file.isStream()) {
-			this.emit('error', new gutil.PluginError('gulp-react', 'Streaming not supported'));
-			cb();
+			cb(new gutil.PluginError('gulp-react', 'Streaming not supported'));
 			return;
 		}
 
@@ -32,11 +30,11 @@ module.exports = function (options) {
 		try {
 			file.contents = new Buffer(react.transform(str, options));
 			file.path = gutil.replaceExtension(filePath, '.js');
-			this.push(file);
+			cb(null, file);
 		} catch (err) {
-			this.emit('error', new gutil.PluginError('gulp-react', err, {fileName: filePath}));
+			cb(new gutil.PluginError('gulp-react', err, {
+				fileName: filePath
+			}));
 		}
-
-		cb();
 	});
 };
