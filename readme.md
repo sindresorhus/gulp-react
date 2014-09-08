@@ -8,7 +8,7 @@
 ## Install
 
 ```sh
-$ npm install --save-dev gulp-react
+$ npm install --save-dev react-tools gulp-react
 ```
 
 
