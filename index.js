@@ -3,6 +3,7 @@ var path = require('path');
 var gutil = require('gulp-util');
 var through = require('through2');
 var react = require('react-tools');
+var reactDomPragma = require('react-dom-pragma');
 
 module.exports = function (options) {
 	return through.obj(function (file, enc, cb) {
@@ -18,13 +19,9 @@ module.exports = function (options) {
 
 		var str = file.contents.toString();
 		var filePath = file.path;
-		// http://stackoverflow.com/a/15123777
-		var JS_COMMENTS_REGEX = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:\/\/(?:.*)$)/gm;
-		var commentMatches = str.match(JS_COMMENTS_REGEX);
-		var hasJsxComment = commentMatches && (commentMatches[0].indexOf('/**') !== -1 && commentMatches[0].indexOf('@jsx') !== -1);
 
-		if (path.extname(filePath) === '.jsx' && !hasJsxComment) {
-			str = '/** @jsx React.DOM */\n' + str;
+		if (path.extname(filePath) === '.jsx') {
+			str = reactDomPragma(str);
 		}
 
 		try {
