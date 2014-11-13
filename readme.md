@@ -30,14 +30,7 @@ The JSX directive `/** @jsx React.DOM */` is automagically prepended to `.jsx` f
 
 ## API
 
-### react(options)
-
-#### options.harmony
-
-Type: `boolean`  
-Default: `false`
-
-Enable [harmony features for JSX](https://github.com/facebook/jstransform/tree/master/visitors).
+All options are passed to react-tools' `transform` method. Refer to the [react-tools API](https://github.com/facebook/react/tree/master/npm-react-tools#transforminputstring-options) for a complete list of options.
 
 
 ## License
