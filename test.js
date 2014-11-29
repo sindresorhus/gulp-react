@@ -32,3 +32,18 @@ it('should precompile React templates with --harmony flag', function (cb) {
 		contents: new Buffer('/** @jsx React.DOM */var HelloMessage = React.createClass({render: () => {return <div>Hello {this.props.name}</div>;}});')
 	}));
 });
+
+it('shouldn\'t touch extension if option is provided', function(cb) {
+	var stream = react({ keepExtension: true });
+
+	stream.on('data', function(file) {
+		assert.equal(file.relative, 'fixture.jsx');
+		assert(/"Hello "/.test(file.contents.toString()));
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		path: 'fixture.jsx',
+		contents: new Buffer('/** @jsx React.DOM */var HelloMessage = React.createClass({render: function(){return <div>Hello {this.props.name}</div>;}});')
+	}));
+});

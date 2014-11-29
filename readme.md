@@ -32,6 +32,7 @@ gulp.task('default', function () {
 
 Options are passed to react-tools' [`transform` method](https://github.com/facebook/react/tree/master/npm-react-tools#transforminputstring-options).
 
+* `keepExtension [false]`. By default, `.jsx` files are renamed to `.js`. Set this option to true if you want to keep the original extension.
 
 ## License
 
