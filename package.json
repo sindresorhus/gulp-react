@@ -1,6 +1,6 @@
 {
   "name": "gulp-react",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Precompile Facebook React JSX templates into JavaScript",
   "license": "MIT",
   "repository": "sindresorhus/gulp-react",
