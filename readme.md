@@ -7,7 +7,7 @@
 
 ## Install
 
-```sh
+```
 $ npm install --save-dev gulp-react
 ```
 
@@ -28,9 +28,9 @@ gulp.task('default', function () {
 
 ## API
 
-### react(options)
+### react([options])
 
-Options are passed to react-tools' [`transform` method](https://github.com/facebook/react/tree/master/npm-react-tools#transforminputstring-options).
+See the `react-tools` [options](https://github.com/facebook/react/tree/master/npm-react-tools#transforminputstring-options), except for `sourceMap` and `sourceFilename`, which are handled for you.
 
 
 ## Source Maps
