@@ -30,7 +30,7 @@ gulp.task('default', function () {
 
 ### react(options)
 
-Options are passed to react-tools' [`transform` method](https://github.com/facebook/react/tree/master/npm-react-tools#transforminputstring-options).
+Options are passed to react-tools' [`transformWithDetails` method](https://github.com/facebook/react/tree/master/npm-react-tools#transformwithdetailsinputstring-options).
 
 
 ## Source Maps
