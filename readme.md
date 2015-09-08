@@ -1,5 +1,7 @@
 # gulp-react [![Build Status](https://travis-ci.org/sindresorhus/gulp-react.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-react)
 
+## Deprecated in favor of [gulp-babel](https://github.com/babel/gulp-babel). [Read more.](https://facebook.github.io/react/blog/2015/06/12/deprecating-jstransform-and-react-tools.html)
+
 > Precompile [React](http://facebook.github.io/react/) JSX templates into JavaScript
 
 *Issues with the output should be reported on the React [issue tracker](https://github.com/facebook/react/issues).*
